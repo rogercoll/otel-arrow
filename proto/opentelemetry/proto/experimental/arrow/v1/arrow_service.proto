@@ -47,6 +47,13 @@ service ArrowMetricsService {
   rpc ArrowMetrics(stream BatchArrowRecords) returns (stream BatchStatus) {}
 }
 
+// ArrowProfilesService is a profiles-only Arrow stream. Note: the profiles
+// signal is experimental (opentelemetry.proto.profiles.v1development) and
+// this service is subject to change.
+service ArrowProfilesService {
+  rpc ArrowProfiles(stream BatchArrowRecords) returns (stream BatchStatus) {}
+}
+
 // A message sent by an exporter to a collector containing a batch of Arrow
 // records.
 message BatchArrowRecords {
@@ -100,6 +107,20 @@ enum ArrowPayloadType {
   SPAN_LINKS = 43;
   SPAN_EVENT_ATTRS = 44;
   SPAN_LINK_ATTRS = 45;
+
+  // A set of payloads representing a collection of profiles. Note: the
+  // profiles signal is experimental and these payloads are subject to change.
+  PROFILES = 50;
+  PROFILE_SAMPLES = 51;
+  // Dictionary tables shared by all profiles in the batch
+  // (see opentelemetry.proto.profiles.v1development.ProfilesDictionary).
+  PROFILE_STACKS = 52;
+  PROFILE_LOCATIONS = 53;
+  PROFILE_FUNCTIONS = 54;
+  PROFILE_MAPPINGS = 55;
+  PROFILE_LINKS = 56;
+  PROFILE_STRINGS = 57;
+  PROFILE_ATTRS = 58;
 }
 
 // Represents a batch of OTel Arrow entities.
